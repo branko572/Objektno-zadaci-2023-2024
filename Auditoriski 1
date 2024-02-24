@@ -1,0 +1,335 @@
+Потсетување за референции:
+
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+void swapWithReferences(int &a, int &b) {
+    int tmp = a;
+    a = b;
+    b = tmp;
+}
+
+void swapWithoutReferences(int a, int b) {
+    int tmp = a;
+    a = b;
+    b = tmp;
+}
+
+
+int main() {
+    int a,b;
+    cin >> a >> b; //5 6
+
+    swapWithoutReferences(a,b);
+
+    cout << a << " " << b << endl; // 5 6 (no change )
+
+    swapWithReferences(a,b);
+
+    cout << a << " " << b << endl; //6 5 (swap happens)
+
+    return 0;
+}
+
+
+1.1 Date
+Да се напише програма која ќе споредува два датуми (ден, месец, година) и ќе ја пресмета разликата во денови од едниот до другиот датум. 
+Пресметките да се реализираат во посебни функции. За датумот да се дефинира посебна структура date.
+
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+typedef struct date {
+    int den;
+    int mesec;
+    int godina;
+} date;
+
+int sporedi(date d1, date d2) {
+    if (d1.godina > d2.godina) {
+        return 1;
+    }
+    else if (d2.godina > d1.godina) {
+        return -1;
+    }
+    else {
+        if (d1.mesec > d2.mesec) {
+            return 1;
+        }
+        else if (d2.mesec > d1.mesec) {
+            return -1;
+        }
+        else {
+            if (d1.den > d2.den) {
+                return 1;
+            }
+            else if (d2.den > d1.den) {
+                return -1;
+            }
+            else {
+                return 0;
+            }
+        }
+    }
+}
+
+int razlika(date d1, date d2) {
+    int raz = d1.den - d2.den;
+    raz += (d1.mesec - d2.mesec) * 30;
+    raz += (d1.godina - d2.godina) * 365;
+
+    return raz;
+}
+
+void read(date &date) {
+    cin >> date.den >> date.mesec >> date.godina;
+}
+
+void print(date d) {
+    cout << d.den << "." << d.mesec << "." << d.godina;
+}
+
+int main() {
+    date d1, d2;
+    read(d1);
+    read(d2);
+
+    int rezultat = sporedi(d1, d2);
+    if (rezultat == 0) {
+        cout << "DATUMITE SE ISTI";
+    }
+    else if (rezultat > 0) {
+        cout << "razlikata e: " << razlika(d1, d2);
+    }
+    else if (rezultat < 0) {
+        cout << "razlikata e: " << razlika(d2, d1);
+    }
+
+    return 0;
+}
+
+
+1.2 Vector
+Да се напише програма која ќе го пресметува векторскиот и скаларниот производ на два вектори. 
+Векторите се претставени со координати во тродимензионален координатен систем. 
+Скаларниот и векторскиот производ да се пресметуваат со посебни функции. За вектор да се дефинира посебна структура vector.
+
+Пример:
+
+x   y   z
+[1, 2, 3]
+*   *   *
+[4, 5, 6]
+
+скаларен производ=x1*x2+y1*y2+z1*z2;
+
+за подобро објаснување и формула:
+https://courses.lumenlearning.com/suny-osuniversityphysics/chapter/2-4-products-of-vectors/#:~:text=The%20vector%20product%20of%20two%20vectors%20is%20a%20vector%20perpendicular,the%20corkscrew%20right%2Dhand%20rule.
+
+
+#include <iostream>
+
+using namespace std;
+
+typedef struct vector {
+    float x;
+    float y;
+    float z;
+} vector;
+
+float skalarproizvod(vector v1, vector v2) {
+    return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+}
+
+vector vektorproizvod(vector v1, vector v2) {
+    vector rezultat;
+    rezultat.x = v1.y * v2.z - v1.z * v2.y;
+    rezultat.y = v1.z * v2.x - v1.x * v2.z;
+    rezultat.z = v1.x * v2.y - v1.y * v2.x;
+    return rezultat;
+}
+
+void print(vector v) {
+    cout << "x: " << v.x << ", y: " << v.y << ", z: " << v.z << endl;
+}
+
+int main() {
+    vector v1 = {2, 4, 6};
+    vector v2 = {3, 5, 9};
+
+    cout << "SCALAR PRODUCT" << endl;
+    cout << "v1 * v2 = " << skalarproizvod(v1, v2) << endl;
+
+    cout << "VECTOR PRODUCT" << endl;
+    vector result = vektorproizvod(v1, v2);
+    print(result);
+
+    return 0;
+}
+
+
+1.3 Complex Numbers
+Да се напише програма во која ќе се дефинира структура за претставување комплексни броеви. 
+Потоа да се напишат функции за собирање, одземање и множење на два комплексни броја. 
+Програмата да се тестира во главна програма во која се вчитуваат два комплексни броја од стандарден влез.
+
+
+#include <iostream>
+#include <cmath>  // You should include cmath instead of math.h for C++
+
+using namespace std;
+
+typedef struct kompleksen {
+    float real;
+    float img;
+} kompleksen;
+
+kompleksen soberi(kompleksen k1, kompleksen k2) {
+    kompleksen rez;
+    rez.real = k1.real + k2.real;
+    rez.img = k1.img + k2.img;
+    return rez;
+}
+
+kompleksen odzemi(kompleksen k1, kompleksen k2) {
+    kompleksen rez;
+    rez.real = k1.real - k2.real;
+    rez.img = k1.img - k2.img;
+    return rez;
+}
+
+kompleksen mnozi(kompleksen k1, kompleksen k2) {
+    kompleksen rez;
+    rez.real = k1.real * k2.real - k1.img * k2.img;
+    rez.img = k1.real * k2.img + k1.img * k2.real;
+    return rez;
+}
+
+void read(kompleksen &k1, kompleksen &k2) {
+    cout << "Enter real and imaginary parts for k1: ";
+    cin >> k1.real >> k1.img;
+
+    cout << "Enter real and imaginary parts for k2: ";
+    cin >> k2.real >> k2.img;
+}
+
+int main() {
+    kompleksen k1, k2, rez;
+
+    // Read complex numbers
+    read(k1, k2);
+
+    // Perform operations
+    rez = soberi(k1, k2);
+    cout << "Sum: " << rez.real << " + " << rez.img << "i" << endl;
+
+    rez = odzemi(k1, k2);
+    cout << "Difference: " << rez.real << " + " << rez.img << "i" << endl;
+
+    rez = mnozi(k1, k2);
+    cout << "Product: " << rez.real << " + " << rez.img << "i" << endl;
+
+    return 0;
+}
+
+
+1.4  Студенти
+Од стандарден влез се читаат податоци за непознат број студенти (не повеќе од 100). Податоците се внесуваат така што во секој ред се состои од:
+
+името
+презимето
+бројот на индекс (формат xxyzzzz)
+четири броја (поени од секоја задача)
+со произволен број празни места или табулатори меѓу нив.
+
+Да се напише програма која ќе испечати список на студенти, каде во секој ред ќе има: презиме, име, број на индекс, вкупен број на бодови сортиран според бројот на бодови. 
+При тоа имињата и презимињата да се напишат со голема почетна буква.
+
+
+#include <iostream>
+#include <cstring> // string.h math.h -> cmath
+using namespace std;
+
+struct Student {
+    char firstName[50];
+    char lastName[50];
+    int number;
+    int totalPoints;
+    void print() {
+        cout << firstName << "\t";
+        cout << lastName << "\t";
+        cout << number << "\t";
+        cout << totalPoints << endl;
+    }
+};
+
+
+void normalize(char *name, bool allUppercase = false) {
+    *name = toupper(*name);
+    ++name;
+    while(*name) {
+        if(allUppercase) {
+            *name = toupper(*name);
+        } else {
+            *name = tolower(*name);
+        }
+        ++name;
+    }
+}
+
+/*void normalize(char *name) {
+    normalize(name, false);
+}
+*/
+void read(Student &s) {
+    cin >> s.firstName;
+    cin >> s.lastName;
+    normalize(s.firstName);
+    normalize(s.lastName);
+    cin >> s.number;
+    int a, b, c, d;
+    cin >> a >> b >> c >> d;
+    s.totalPoints = a + b + c + d;
+}
+
+
+
+void sort(Student s[], int n) {
+    for(int i = 0; i < n; ++i) {
+        for(int j = 0; j < n - 1; ++j) {
+            if(s[j].totalPoints < s[j + 1].totalPoints) {
+                Student tmp = s[j];
+                s[j] = s[j + 1];
+                s[j + 1] = tmp;
+            }
+        }
+    }
+}
+
+int main() {
+    Student s[100];
+    int n;
+    cin >> n;
+    for(int i = 0; i < n; ++i) {
+        read(s[i]);
+    }
+    sort(s, n);
+    cout << "======== ORDERED ========" << endl;
+    //read(s);
+    for(int i = 0; i < n; ++i) {
+        s[i].print();
+        //print(s[i]);
+    }
+
+    return 0;
+}
+
+
+
+
+
+
