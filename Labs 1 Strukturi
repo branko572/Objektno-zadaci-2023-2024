@@ -1,0 +1,85 @@
+
+1
+
+#include <iostream>
+#include <cmath>
+#include <cstring>
+
+using namespace std;
+
+struct Transaction {
+    int id;
+    int plsuma;
+    bool card;
+};
+
+int main() {
+    int broj, id, plsuma;
+    bool card;
+
+    cin >> broj;
+    Transaction t[broj];
+
+    for (int i = 0; i < broj; i++) {
+        cin >> id >> plsuma >> card;
+        t[i].id = id;
+        t[i].plsuma = plsuma;
+        t[i].card = card;
+    }
+
+
+    // Test output to verify data is stored correctly
+    for (int i = 0; i < broj; i++) {
+        if(t[i].card==0){
+            cout<<"Transaction " << i+1 << " ID: " << t[i].id << ", Plsuma: " << t[i].plsuma<<" No credit card transaction";
+        }
+        else{
+            cout << "Transaction " << i+1 << " ID: " << t[i].id << ", Plsuma: " << t[i].plsuma << ", Card: " << t[i].card << endl;
+        }
+
+    }
+
+    return 0;
+}
+
+Vtor nacin 
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+struct Transaction
+{
+    int id;
+    int sum;
+    int commission;
+    int deb_or_kre;
+};
+
+int main()
+{
+    int N;
+    cin>>N;
+    Transaction trans[N];
+    for(int i=0;i<N;i++)
+    {
+        cin>>trans[i].id>>trans[i].sum>>trans[i].commission>>trans[i].deb_or_kre;
+    }
+    int flag = 0;
+    for(int i=0;i<N;i++)
+    {
+        if(trans[i].deb_or_kre == 1)
+        {
+            flag = 1;
+            cout<<trans[i].id<<" "<<trans[i].sum+trans[i].commission<<endl;
+        }
+    }
+    if(flag == 0)
+    {
+        cout<<"No credit card transaction"<<endl;
+    }
+    return 0;
+}
+
+
+
