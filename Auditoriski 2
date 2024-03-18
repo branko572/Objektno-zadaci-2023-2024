@@ -2,3 +2,154 @@
 Да се напише класа за опишување на геометриско тело триаголник. Во класата да се напишат методи за пресметување на плоштината и периметарот на триаголникот.
 Потоа да се напише главна програма во која ќе се инстнацира еден објект од оваа класа со вредности за страните кои претходно ќе се прочитаат од стандарден влез. 
 На овој објект да се повикат соодветните методи за пресметување на плоштината и периметарот.
+
+#include <iostream>
+#include <string.h>
+#include <cmath>
+using namespace std;
+
+class Triagolnik{
+private:
+    int a;
+    int b;
+    int c;
+public:
+    Triagolnik(){}
+
+    Triagolnik(int x, int y, int z){
+
+        a=x;
+        b=y;
+        c=z;
+
+    }
+    ~Triagolnik(){}
+
+    int L(){
+        return a+b+c;
+    }
+    int P(){
+        float s=(a+b+c)/2;
+        return ::sqrt(s*(s-a)*(s-b)*(s-c));
+    };
+};
+
+
+int main() {
+    int a,b,c;
+    cin>>a>>b>>c;
+    Triagolnik t(a,b,c);
+    cout<<"Perimetar e: "<<t.L()<<endl;
+    cout<<"Plostina e: "<<t.P()<<endl;
+
+    return 0;
+}
+
+
+
+2.2. Вработен
+Да се напише класа во која ќе се чуваат основни податоци за вработен:
+
+име
+
+плата
+
+работна позиција (работната позиција може да биде вработен, директор или шеф).
+
+Напишете главна програма во која се читаат од стандарден влез податоци за N вработени, а потоа се пачати листа на вработените сортирани според висината на платата во опаѓачки редослед.
+
+#include <iostream>
+#include <string.h>
+using namespace std;
+
+enum position {
+    employee, manager, owner
+};
+
+class Person {
+private:
+    char name[100];
+    int salary;
+    position pos;
+public:
+    // Constructors
+    Person() {
+    }
+
+    Person(char *n, int s, position p) {
+        strcpy(name, n);
+        salary = s;
+        pos = p;
+    }
+    // Destruktor
+    ~Person() {
+    }
+
+    void setName(char const *n) {
+        strcpy(name, n);
+    }
+    void setSalary(int const s) {
+        salary = s;
+    }
+    void setPosition(position p) {
+        pos = p;
+    }
+    char const *getName() {
+        return name;
+    }
+    int const getSalary() {
+        return salary;
+    }
+    position const getPosition() {
+        return pos;
+    }
+};
+
+void sort(Person a[], int n) {
+    int i, j;
+    Person p;
+    for (i = 0; i < n - 1; i++)
+        for (j = i; j < n; j++)
+            if (a[i].getSalary() < a[j].getSalary()) {
+                p = a[j];
+                a[j] = a[i];
+                a[i] = p;
+            }
+}
+
+int main() {
+    Person employees[100];
+    float salary;
+    int n, pos;
+    char name[100];
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        cin >> name;
+        cin >> salary;
+        cin >> pos;
+        employees[i].setName(name);
+        employees[i].setSalary(salary);
+        employees[i].setPosition((position) pos);
+    }
+    sort(employees, n);
+    for (int i = 0; i < n; i++) {
+        cout << i + 1 << ". " << employees[i].getName() << "\t"
+             << employees[i].getSalary() << "\t";
+
+        switch (employees[i].getPosition()) {
+            case 0:
+                cout << "Vraboten";
+                break;
+            case 1:
+                cout << "Direktor";
+                break;
+            case 2:
+                cout << "Shef";
+                break;
+        }
+
+        cout << endl;
+    }
+
+    return 0;
+}
