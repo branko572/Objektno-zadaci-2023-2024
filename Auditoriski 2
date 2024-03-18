@@ -165,6 +165,73 @@ int main() {
 
 
 
+#include <iostream>
+#include <cstring> // for strcpy
+using namespace std;
+
+class Email {
+private:
+    char sender[100];    // Increase size to accommodate longer strings
+    char receiver[100];  // Increase size to accommodate longer strings
+    char subject[100];   // Increase size to accommodate longer strings
+    char body[100];      // Increase size to accommodate longer strings
+
+public:
+    Email() {}
+
+    Email(const char* s, const char* r, const char* sub, const char* b) {
+        strcpy(sender, s);
+        strcpy(receiver, r);
+        strcpy(subject, sub);
+        strcpy(body, b);
+    }
+
+    ~Email() {}
+
+    void show() {
+        cout << "From:\t" << sender << endl;
+        cout << "To :\t" << receiver << endl;
+        cout << "------------------------------" << endl;
+        cout << "Subject :\t" << subject << endl;
+        cout << "------------------------------" << endl;
+        cout << "Body: " << endl;
+        cout << body << endl;
+        cout << "ENDS";
+    }
+};
+
+    bool valid(char *email){
+        char *atEmail = strchr(email, '@');
+        if(atEmail== nullptr){
+            return false;
+        }
+        char *firstDotpointer= strchr(atEmail,'.');
+        return firstDotpointer != nullptr;
+    }
+int main() {
+    char sender[100];
+    char receiver[100];
+    char subject[100];
+    char body[100];
+
+    cin.getline(sender, 100);
+    cin.getline(receiver, 100);
+    cin.getline(subject, 100);
+    cin.getline(body, 100);
+
+    if(!valid(sender)||!valid(receiver)){
+        cout<<"INVALID SENDER OR RECEIVER EMAIL!"<<endl;
+        return 0;
+    }
+    Email e(sender, receiver, subject, body);
+    e.show();
+
+    return 0;
+}
+
+
+
+
 
 
 
