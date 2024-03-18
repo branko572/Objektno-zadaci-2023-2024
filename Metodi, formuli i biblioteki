@@ -1,0 +1,218 @@
+Getter Setter metodi:
+
+pr.
+
+void setName(char const *n) {
+        strcpy(name, n);
+    }
+    void setSalary(int const s) {
+        salary = s;
+    }
+    void setPosition(position p) {
+        pos = p;
+    }
+    char const *getName() {
+        return name;
+    }
+    int const getSalary() {
+        return salary;
+    }
+    position const getPosition() {
+        return pos;
+    }
+
+
+Bubble sort:
+
+bubble sort - najgolemiot na pocetok se stava
+
+pr.
+void swap(int& a, int& b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
+
+void bubbleSort(int array[], int size) {
+    bool swapped = true;
+    while (swapped) {
+        swapped = false;
+        for (int i = 0; i < size - 1; i++) {
+            if (array[i] > array[i + 1]) {
+                swap(array[i], array[i + 1]);
+                swapped = true;
+            }
+        }
+    }
+}
+
+pr2.
+
+void sort(Person a[], int n) {
+    int i, j;
+    Person p;
+    for (i = 0; i < n - 1; i++)
+        for (j = i; j < n; j++)
+            if (a[i].getSalary() < a[j].getSalary()) {
+                p = a[j];
+                a[j] = a[i];
+                a[i] = p;
+            }
+}
+
+
+#include <cstring>
+
+C Strings
+This header file defines several functions to manipulate C strings and arrays.
+
+Functions
+Copying:
+memcpy	Copy block of memory (function)
+memmove	Move block of memory (function)
+strcpy	Copy string (function)
+strncpy	Copy characters from string (function)
+
+Concatenation:
+strcat	Concatenate strings (function)
+strncat	Append characters from string (function)
+
+Comparison:
+memcmp	Compare two blocks of memory (function)
+strcmp	Compare two strings (function)
+strcoll	Compare two strings using locale (function)
+strncmp	Compare characters of two strings (function)
+strxfrm	Transform string using locale (function)
+
+Searching:
+memchr	Locate character in block of memory (function)
+strchr	Locate first occurrence of character in string (function)
+strcspn	Get span until character in string (function)
+strpbrk	Locate characters in string (function)
+strrchr	Locate last occurrence of character in string (function)
+strspn	Get span of character set in string (function)
+strstr	Locate substring (function)
+strtok	Split string into tokens (function)
+
+Other:
+memset	Fill block of memory (function)
+strerror	Get pointer to error message string (function)
+strlen	Get string length (function)
+
+Macros
+NULL	Null pointer (macro)
+
+Types
+size_t	Unsigned integral type (type)
+
+
+<cmath> (math.h)
+C numerics library
+Header <cmath> declares a set of functions to compute common mathematical operations and transformations:
+
+Functions
+
+Trigonometric functions
+cos	Compute cosine (function)
+sin	Compute sine (function)
+tan	Compute tangent (function)
+acos	Compute arc cosine (function)
+asin	Compute arc sine (function)
+atan	Compute arc tangent (function)
+atan2	Compute arc tangent with two parameters (function)
+
+Hyperbolic functions
+cosh	Compute hyperbolic cosine (function)
+sinh	Compute hyperbolic sine (function)
+tanh	Compute hyperbolic tangent (function)
+acosh	Compute area hyperbolic cosine (function)
+asinh	Compute area hyperbolic sine (function)
+atanh	Compute area hyperbolic tangent (function)
+
+Exponential and logarithmic functions
+exp	Compute exponential function (function)
+frexp	Get significand and exponent (function)
+ldexp	Generate value from significand and exponent (function)
+log	Compute natural logarithm (function)
+log10	Compute common logarithm (function)
+modf	Break into fractional and integral parts (function)
+exp2	Compute binary exponential function (function)
+expm1	Compute exponential minus one (function)
+ilogb	Integer binary logarithm (function)
+log1p	Compute logarithm plus one (function)
+log2	Compute binary logarithm (function)
+logb	Compute floating-point base logarithm (function)
+scalbn	Scale significand using floating-point base exponent (function)
+scalbln	Scale significand using floating-point base exponent (long) (function)
+
+Power functions
+pow	Raise to power (function)
+sqrt	Compute square root (function)
+cbrt	Compute cubic root (function)
+hypot	Compute hypotenuse (function)
+
+Error and gamma functions
+erf	Compute error function (function)
+erfc	Compute complementary error function (function)
+tgamma	Compute gamma function (function)
+lgamma	Compute log-gamma function (function)
+
+Rounding and remainder functions
+ceil	Round up value (function)
+floor	Round down value (function)
+fmod	Compute remainder of division (function)
+trunc	Truncate value (function)
+round	Round to nearest (function)
+lround	Round to nearest and cast to long integer (function)
+llround	Round to nearest and cast to long long integer (function)
+rint	Round to integral value (function)
+lrint	Round and cast to long integer (function)
+llrint	Round and cast to long long integer (function)
+nearbyint	Round to nearby integral value (function)
+remainder	Compute remainder (IEC 60559) (function)
+remquo	Compute remainder and quotient (function)
+
+Floating-point manipulation functions
+copysign	Copy sign (function)
+nan	Generate quiet NaN (function)
+nextafter	Next representable value (function)
+nexttoward	Next representable value toward precise value (function)
+
+Minimum, maximum, difference functions
+fdim	Positive difference (function)
+fmax	Maximum value (function)
+fmin	Minimum value (function)
+
+Other functions
+fabs	Compute absolute value (function)
+abs	Compute absolute value (function)
+fma	Multiply-add (function)
+
+Macros / Functions
+These are implemented as macros in C and as functions in C++:
+Classification macro / functions
+fpclassify	Classify floating-point value (macro/function)
+isfinite	Is finite value (macro)
+isinf	Is infinity (macro/function)
+isnan	Is Not-A-Number (macro/function)
+isnormal	Is normal (macro/function)
+signbit	Sign bit (macro/function)
+
+Comparison macro / functions
+isgreater	Is greater (macro)
+isgreaterequal	Is greater or equal (macro)
+isless	Is less (macro)
+islessequal	Is less or equal (macro)
+islessgreater	Is less or greater (macro)
+isunordered	Is unordered (macro)
+
+Macro constants
+math_errhandling	Error handling (macro)
+INFINITY	Infinity (constant)
+NAN	Not-A-Number (constant)
+HUGE_VAL	Huge value (constant)
+HUGE_VALF	Huge float value
+HUGE_VALL	Huge long double value (constant)
+
+
