@@ -84,6 +84,183 @@ int main()
 
 2
 
+Problem: input e dolg
+treba da se napravi lista
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+struct Footballplayer {
+    char ime[50];
+    int brdres;
+    int golovi;
+};
+
+struct FootballTeam {
+    char ime[50];
+    Footballplayer footballplayer[11]; // Array to store 11 players
+};
+
+void bestTeams(FootballTeam *teams, int n) {
+
+        int maxGoals = 0;
+        FootballTeam* teamWithMostGoals = nullptr;
+
+        for (int i = 0; i < n; ++i) {
+            int teamGoals = 0;
+            for (int j = 0; j < 11; ++j) {
+                teamGoals += teams[i].footballplayer[j].golovi;
+            }
+            if (teamGoals > maxGoals) {
+                maxGoals = teamGoals;
+                teamWithMostGoals = &teams[i];
+            }
+        }
+
+        if (teamWithMostGoals != nullptr) {
+            cout << "Team with most goals: " << teamWithMostGoals->ime << endl;
+        } else {
+            cout << "No teams entered or all teams have scored 0 goals." << endl;
+        }
+
+}
+
+int main() {
+    int n;
+    cout << "Enter the number of teams: ";
+    cin >> n;
+
+    FootballTeam teams[n];
+
+    for(int i = 0; i < n; i++) {
+        cout << "Enter team name: ";
+        cin >> teams[i].ime;
+
+        cout << "Enter details for 11 players:\n";
+        for(int j = 0; j < 11; j++) {
+
+            cin >> teams[i].footballplayer[j].ime>> teams[i].footballplayer[j].golovi>>teams[i].footballplayer[j].brdres;
+
+
+        }
+    }
+
+    // Call function to find best teams
+    bestTeams(teams, n);
+
+    return 0;
+}
+
+
+3
+
+NEDOVRSENA: NETOCNA VOID FUNKCIJA
+
+PRIMER INPUT:
+
+3
+Opel
+1999
+577
+516
+Audi
+2000
+591
+590
+Citroen
+2020
+220
+321
+Citroen
+2020
+220
+
+OUTPUT:
+Manufacturer: Opel
+Horsepower:577
+Torque:516
+
+
+
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+struct Engine{
+    int horsepower;
+    int torque;
+};
+
+struct Car{
+    char marka[50];
+    int godina;
+    Engine engine;
+};
+
+void printcars(Car *c, int n){
+
+    int minHorsepower = c[0].engine.horsepower; // Initialize with the first car's horsepower
+    int maxTorque = c[0].engine.torque; // Initialize with the first car's torque
+    int minHorsepowerIndex = 0;
+    int maxTorqueIndex = 0;
+
+    // Find the car with the least horsepower
+    for(int i = 1; i < n; i++){
+        if(c[i].engine.horsepower < minHorsepower){
+            minHorsepower = c[i].engine.horsepower;
+            minHorsepowerIndex = i;
+        }
+    }
+
+    // Find the car with the greatest torque
+    for(int i = 1; i < n; i++){
+        if(c[i].engine.torque > maxTorque){
+            maxTorque = c[i].engine.torque;
+            maxTorqueIndex = i;
+        }
+    }
+
+    // Print information about the cars
+    cout << "Car with the least horsepower:" << endl;
+    cout << "Manufacturer: " << c[minHorsepowerIndex].marka << endl;
+    cout << "Year: " << c[minHorsepowerIndex].godina << endl;
+    cout << "Horsepower: " << minHorsepower << endl;
+
+    cout << "\nCar with the greatest torque:" << endl;
+    cout << "Manufacturer: " << c[maxTorqueIndex].marka << endl;
+    cout << "Year: " << c[maxTorqueIndex].godina << endl;
+    cout << "Torque: " << maxTorque << endl;
+}
+
+int main() {
+    int n;
+    cout << "Enter the number of cars: ";
+    cin >> n;
+
+    Car c[n];
+
+    for(int i = 0; i < n; i++){
+
+        cin >> c[i].marka;
+
+        cin >> c[i].godina;
+
+        cin >> c[i].engine.horsepower;
+
+        cin >> c[i].engine.torque;
+    }
+
+    printcars(c, n);
+
+    return 0;
+}
+
+4
+
+
+
 
 
 
