@@ -16,3 +16,118 @@ Devojche: Ime prezime godini.
 Sredba: Momche: Ime Prezime Godini Devojche: Ime Prezime Godini.
 
 Напишете функција daliSiOdgovaraat() која печати “Si odgovaraat” доколку разликата на нивните години е помала или еднаква на 5 или “Ne si odgovaraat” во спротивно.
+
+#include <iostream>
+#include <cstring>
+#include <cmath>
+using namespace std;
+
+class Momche {
+private:
+    char ime[50];
+    char prezime[50];
+    int godini;
+
+public:
+    Momche() {}
+
+    Momche(char *i, char *p, int g) {
+        ::strcpy(ime, i);
+        ::strcpy(prezime, p);
+        godini = g;
+    }
+
+    Momche(const Momche &other) {
+        godini = other.godini;
+        ::strcpy(ime, other.ime);
+        ::strcpy(prezime, other.prezime);
+    }
+
+    ~Momche() {}
+
+    void print() {
+        cout << "Momche: " << ime << " " << prezime << " " << godini << endl;
+    }
+
+    int getGodini() {
+        return godini;
+    }
+};
+
+class Devojche {
+private:
+    char ime[50];
+    char prezime[50];
+    int godini;
+
+public:
+    Devojche() {}
+
+    Devojche(char *i, char *p, int g) {
+        ::strcpy(ime, i);
+        ::strcpy(prezime, p);
+        godini = g;
+    }
+
+    Devojche(const Devojche &other) {
+        godini = other.godini;
+        ::strcpy(ime, other.ime);
+        ::strcpy(prezime, other.prezime);
+    }
+
+    ~Devojche() {}
+
+    int getGodini() {
+        return godini;
+    }
+
+    void print() {
+        cout << "Devojche: " << ime << " " << prezime << " " << godini << endl;
+    }
+};
+
+class Sredba {
+private:
+    Momche momche;
+    Devojche devojche;
+
+public:
+    Sredba(const Momche m, const Devojche d) : momche(m), devojche(d) {}
+
+    ~Sredba() {}
+
+    void print() {
+        momche.print();
+        devojche.print();
+    }
+
+    void daliSiOdgovaraat() {
+        if (abs(momche.getGodini() - devojche.getGodini()) <5) {
+            cout << "Si odgovaraat" << endl;
+        } else {
+            cout << "Ne si odgovaraat" << endl;
+        }
+    }
+};
+
+int main() {
+    int godini;
+    char ime[50], prezime[50];
+
+    cout << "Informacii za momche: " << endl;
+    cin >> ime >> prezime >> godini;
+    Momche m(ime, prezime, godini);
+
+    cout << "Informacii za devojche: " << endl;
+    cin >> ime >> prezime >> godini;
+    Devojche d(ime, prezime, godini);
+
+    cout << "Dali si odgovaraat: ";
+    Sredba s(m, d);
+    s.print();
+    s.daliSiOdgovaraat();
+
+    return 0;
+}
+
+
