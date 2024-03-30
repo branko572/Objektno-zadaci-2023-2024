@@ -131,6 +131,143 @@ int main() {
 }
 
 
+VTOR NACIN:
+
+
+#include<iostream>
+#include<cstring>
+using namespace std;
+
+class Boy {
+private:
+    char ime[50];
+    int godini;
+public:
+    Boy(){
+        ::strcpy(ime,"LMAO");
+        godini=38;
+    }
+
+    Boy(char  *ime, int godini){
+        ::strcpy(this->ime,ime);
+        this->godini=godini;
+
+    }
+
+    Boy (const Boy & boy){
+        ::strcpy(this->ime,boy.ime);
+        this->godini=boy.godini;
+    }
+
+    void print(){
+        cout<<"Boy: "<<ime<<" Age: "<<godini<<endl;
+    }
+
+    ~Boy(){}
+
+    int getAge()const{
+        return godini;
+    }
+};
+
+
+
+class Girl {
+private:
+    char ime[50];
+    int godini;
+public:
+    Girl(){
+        ::strcpy(ime,"Lol");
+        godini=18;
+    }
+
+    Girl(char  *ime, int godini){
+        ::strcpy(this->ime,ime);
+        this->godini=godini;
+
+    }
+
+    Girl(const Girl & girl){
+        ::strcpy(this->ime,girl.ime);
+        this->godini=girl.godini;
+    }
+
+    void print(){
+        cout<<"Girl: "<<ime<<" Age: "<<godini<<endl;
+    }
+
+    ~Girl(){}
+
+    int getAge()const{
+        return godini;
+    }
+
+};
+
+
+
+
+
+
+class Date {
+private:
+    Boy boy;
+    Girl girl;
+
+public:
+    Date(){
+
+
+    }
+    Date(Boy boy, Girl girl){
+        this->boy=boy;
+        this->girl=girl;
+    }
+    Date(const Date & date){
+        this->boy=date.boy;
+        this->girl=date.girl;
+    }
+
+    void print(){
+        cout<<"Date between ";
+        boy.print();
+        cout<<" and ";
+        girl.print();
+    }
+
+    void isMatch(){
+        int diff= ::abs(boy.getAge()-girl.getAge());
+        if(diff<=5){
+            cout<<"Match"<<endl;
+        } else{
+            cout<<"Not a match"<<endl;
+        }
+
+    }
+
+};
+int main() {
+    Boy b;
+    Girl g;
+
+    Date date(b, g);
+    date.print();
+    date.isMatch();
+
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
 1.2. Екипа
 Да се дефинира класа Ekipa што содржи информации за име на екипата, година на формирање и градот од каде потекнува.
 
@@ -228,7 +365,7 @@ int main() {
     return 0;
 }
 
-
+VTOR NACIN:
 
 
 #include<iostream>
@@ -313,6 +450,91 @@ int main() {
 
     return 0;
 }
+
+
+
+TRET NACIN:
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Team {
+private:
+    string ime;
+    int godina;
+    string grad;
+
+public:
+    Team(const char* ime = "", int godina = 1990, const char* grad = "")
+            : ime(ime), godina(godina), grad(grad) {}
+
+    bool isEqual(const char* other) const {
+        return ime == other;
+    }
+
+    const string& getIme() const {
+        return ime;
+    }
+
+    void print() const {
+        cout << ime << endl;
+    }
+};
+
+class Game {
+private:
+    Team domasen;
+    Team gostin;
+    int goldom;
+    int golgost;
+
+public:
+    Game()
+            : goldom(1), golgost(0) {}
+
+    Game(const Team& domasen, const Team& gostin, int goldom = 0, int golgost = 0)
+            : domasen(domasen), gostin(gostin), goldom(goldom), golgost(golgost) {}
+
+    Game(const Game& g)
+            : domasen(g.domasen), gostin(g.gostin), goldom(g.goldom), golgost(g.golgost) {}
+
+    bool isRematch(const Game& other) const {
+        return domasen.isEqual(other.gostin.getIme().c_str()) && gostin.isEqual(other.domasen.getIme().c_str());
+    }
+
+    Team getWinningTeam() const {
+        int goalsOfFirstTeam = goldom + golgost;
+        int goalsOfSecTeam = golgost + goldom;
+
+        if (goalsOfFirstTeam > goalsOfSecTeam) {
+            return domasen;
+        }
+        else if (goalsOfFirstTeam < goalsOfSecTeam) {
+            return gostin;
+        }
+        // No winner
+        return Team("No winner");
+    }
+};
+
+int main() {
+    Team team1("Barca", 1890, "Barcelona");
+    Team team2("REAL", 1880, "Madrid");
+
+    Game firstgame(team1, team2);
+    Game secondgame(team2, team1);
+
+    cout << firstgame.isRematch(secondgame) << endl;
+    firstgame.getWinningTeam().print();
+
+    return 0;
+}
+
+
+
 
 
 
