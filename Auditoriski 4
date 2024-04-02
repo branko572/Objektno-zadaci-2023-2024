@@ -170,3 +170,135 @@ findMedianAge - наоѓа која е медијаната за години н
 
 Сите студенти имаат уникатно име.
 Да не се менува main функцијата.
+
+
+
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+
+class Student {
+    char name[100];
+    int age;
+    char major[100];
+public:
+    Student() {}
+    Student(const char* n, int a, const char* m) {
+        strcpy(name, n);
+        age = a;
+        strcpy(major, m);
+    }
+    void print() const {
+        cout << name << " (" << age << ", " << major << ")" << endl;
+    }
+    int getAge() const {
+        return age;
+    }
+    const char* getName() const {
+        return name;
+    }
+};
+
+class Classroom {
+    Student students[100];
+    int numStudents;
+public:
+    Classroom() {
+        numStudents = 0;
+    }
+    void add(const Student& s) {
+        if (numStudents < 100) {
+            students[numStudents++] = s;
+        }
+    }
+    void remove(const char* name) {
+        for (int i = 0; i < numStudents; i++) {
+            if (strcmp(students[i].getName(), name) == 0) {
+                for (int j = i; j < numStudents - 1; j++) {
+                    students[j] = students[j + 1];
+                }
+                numStudents--;
+                break;
+            }
+        }
+    }
+    void printStudents() const {
+        for (int i = 0; i < numStudents; i++) {
+            students[i].print();
+        }
+    }
+    int getNumStudents() const {
+        return numStudents;
+    }
+    const Student& getStudent(int i) const {
+        return students[i];
+    }
+};
+
+double findMedianAge(const Classroom& c) {
+    int numStudents = c.getNumStudents();
+    int ages[numStudents];
+    for (int i = 0; i < numStudents; i++) {
+        ages[i] = c.getStudent(i).getAge();
+    }
+    sort(ages, ages + numStudents);
+    if (numStudents % 2 == 0) {
+        return (ages[numStudents/2] + ages[numStudents/2 - 1]) / 2.0;
+    } else {
+        return ages[numStudents/2];
+    }
+}
+
+//DO NOT CHANGE
+int main() {
+    int numClassrooms, numStudents;
+    cin >> numClassrooms;
+    Classroom classrooms[100];
+    Student students[100];
+
+    // Testing add method
+    for (int i = 0; i < numClassrooms; i++) {
+        cin >> numStudents;
+        for (int j = 0; j < numStudents; j++) {
+            char name[100], major[100];
+            int age;
+            cin >> name >> age >> major;
+            Student student(name, age, major);
+            classrooms[i].add(student);
+            students[i*numStudents + j] = student;
+        }
+        cout<<"Classroom "<<i<<endl;
+        classrooms[i].printStudents();
+    }
+
+
+    // Testing findMedianAge method
+    int targetClassroom;
+    cin >> targetClassroom;
+    double medianAge = findMedianAge(classrooms[targetClassroom]);
+    cout << "The median age in classroom " << targetClassroom << " is: " << medianAge << endl;
+
+    // Testing remove method
+    cin >> numStudents;
+    for (int j = 0; j < numStudents; j++) {
+        char name[100];
+        cin >> name;
+        for (int i = 0; i < numClassrooms; i++) {
+            classrooms[i].remove(name);
+        }
+    }
+    for (int i = 0; i < numClassrooms; i++) {
+        cout<<"Classroom "<<i<<endl;
+        classrooms[i].printStudents();
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+
