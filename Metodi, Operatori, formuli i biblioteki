@@ -62,6 +62,103 @@ void sort(Person a[], int n) {
 }
 
 
+
+
+
+
+
+
+
+
+Преоптоварување на оператори:
+// =
+Class& operator= (const Class &c)
+{
+    arg=c.arg;
+    return this;
+}
+// +=
+Class& operator+= (const Class &c)
+{
+    arg+=c.arg;
+    returnthis;
+}
+// -=
+Class& operator-= (const Class &c)
+{
+    arg-=c.arg;
+    return this;
+}
+// +
+friend Class operator+ (const Class &c1, const Class &c2)
+{
+    Class tmp;
+    tmp.arg=c1.arg + c2.arg;
+    return tmp;
+}
+// ==
+friend bool operator== (const Class &c1, const Class &c2)
+{
+    if(c1.arg==c2.arg) return true;
+    else return false;
+}
+// ==
+bool operator== (const Class &c)
+{
+    if(arg=c.arg) return true;
+    else return false;
+}
+// []
+char& operator[] (int i) const 
+{
+    return cptr[i];
+}
+// ++
+Class& operator++ () const
+{
+    arg++;
+    returnthis;
+}
+// --
+Class& operator--() const
+{
+    arg--;
+    return this;
+}
+// postfix ++
+Class operator++ (int) const
+{
+   Class t(this);
+    arg++;
+    return t;
+}
+// postfix --
+Class operator-- (int) const
+{
+    Class t(this);
+    arg--;
+    return t;
+}
+// <<
+friend ostream& operator<< (ostream &out, const Class &c)
+{
+    return out<<c.arg<<...<<endl;
+}
+// >>
+friend istream& operator>> (istream &in, Class &c)
+{
+    return in>>c.arg>>...;
+}// Class& ставаме кога вршиме промена директно на тековниот објект (this), а инаку ако само сакаме да вратиме нов објект од таа класа пишуваме само Class operator...(od grupva na fb osven tamu ne najdov vaka izvadeni
+
+
+
+
+
+
+
+
+
+
 #include <cstring>
 
 C Strings
