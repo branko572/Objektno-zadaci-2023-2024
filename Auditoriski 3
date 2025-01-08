@@ -655,6 +655,160 @@ int main() {
     return 0;
 }
 
+--------------------------------------------------------------
+
+Vtor nacin so vnesuvanje na podatoci:
+
+
+#include <iostream>
+#include <cstring>
+#include <cmath>
+using namespace std;
+
+class Datum {
+private:
+    int den;
+    int mesec;
+    int godina;
+
+public:
+    Datum(int den = 0, int mesec = 0, int godina = 0) {
+        this->den = den;
+        this->mesec = mesec;
+        this->godina = godina;
+    }
+
+    Datum(const Datum &other) {
+        this->den = other.den;
+        this->mesec = other.mesec;
+        this->godina = other.godina;
+    }
+
+    ~Datum() {}
+
+    int getDen() const {
+        return den;
+    }
+
+    int getMesec() const {
+        return mesec;
+    }
+
+    int getGodina() const {
+        return godina;
+    }
+
+    // Helper function to compare two dates
+    bool isYoungerThan(const Datum &other) const {
+        if (this->godina > other.godina) return true;
+        if (this->godina == other.godina && this->mesec > other.mesec) return true;
+        if (this->godina == other.godina && this->mesec == other.mesec && this->den > other.den) return true;
+        return false;
+    }
+};
+
+class Vraboten {
+private:
+    char ime[20];
+    int plata;
+    Datum datum;
+
+public:
+    Vraboten(char *ime = "", int plata = 0, Datum datum = Datum()) : datum(datum) {
+        ::strcpy(this->ime, ime);
+        this->plata = plata;
+    }
+
+    Vraboten(const Vraboten &other) {
+        ::strcpy(this->ime, other.ime);
+        this->plata = other.plata;
+        this->datum = other.datum;
+    }
+
+    ~Vraboten() {}
+
+    const char *getIme() const {
+        return ime;
+    }
+
+    int getPlata() const {
+        return plata;
+    }
+
+    const Datum &getDatum() const {
+        return datum;
+    }
+
+    void print() const {
+        cout << "Ime: " << getIme() << endl;
+        cout << "Plata: " << getPlata() << endl;
+        cout << "Datum: " << datum.getDen() << " " << datum.getMesec() << " " << datum.getGodina() << endl;
+    }
+};
+
+// Function to find the employee with the highest salary
+Vraboten najgolemaPlata(Vraboten v[], int n) {
+    int maxIndex = 0;
+    for (int i = 1; i < n; i++) {
+        if (v[i].getPlata() > v[maxIndex].getPlata()) {
+            maxIndex = i;
+        }
+    }
+    return v[maxIndex];
+}
+
+// Function to find the youngest employee
+Vraboten najmladVraboten(Vraboten v[], int n) {
+    int youngestIndex = 0;
+    for (int i = 1; i < n; i++) {
+        if (v[i].getDatum().isYoungerThan(v[youngestIndex].getDatum())) {
+            youngestIndex = i;
+        }
+    }
+    return v[youngestIndex];
+}
+
+int main() {
+    int n;
+    cout << "Vnesi broj na vraboteni: ";
+    cin >> n;
+
+    Vraboten *vraboteni = new Vraboten[n];
+    for (int i = 0; i < n; i++) {
+        char ime[20];
+        int plata;
+        int den, mesec, godina;
+
+        cout << "Vnesi ime: ";
+        cin >> ime;
+
+        cout << "Vnesi plata: ";
+        cin >> plata;
+
+        cout << "Vnesi datum na ragjanje (den mesec godina): ";
+        cin >> den >> mesec >> godina;
+
+        Datum d(den, mesec, godina);
+        vraboteni[i] = Vraboten(ime, plata, d);
+    }
+
+    // Find the employee with the highest salary
+    Vraboten najplaten = najgolemaPlata(vraboteni, n);
+
+    // Find the youngest employee
+    Vraboten najmlad = najmladVraboten(vraboteni, n);
+
+    cout << "\nNajplaten vraboten:" << endl;
+    najplaten.print();
+
+    cout << "\nNajmlad vraboten:" << endl;
+    najmlad.print();
+
+    delete[] vraboteni;
+    return 0;
+}
+
+
 
 
 
