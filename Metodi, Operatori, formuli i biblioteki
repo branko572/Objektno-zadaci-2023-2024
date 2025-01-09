@@ -148,7 +148,8 @@ friend ostream& operator<< (ostream &out, const Class &c)
 friend istream& operator>> (istream &in, Class &c)
 {
     return in>>c.arg>>...;
-}// Class& ставаме кога вршиме промена директно на тековниот објект (this), а инаку ако само сакаме да вратиме нов објект од таа класа пишуваме само Class operator...(od grupva na fb osven tamu ne najdov vaka izvadeni
+}// Class& ставаме кога вршиме промена директно на тековниот објект (this), 
+а инаку ако само сакаме да вратиме нов објект од таа класа пишуваме само Class operator...(od grupva na fb osven tamu ne najdov vaka izvadeni
 
 
 
