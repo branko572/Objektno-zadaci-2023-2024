@@ -379,6 +379,246 @@ int main() {
     return 0;
 }
 
+------------------------------------------------------------------------------------------------------
+
+VTOR NACIN:
+
+
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+class Student {
+private:
+    char* name;
+    int age;
+    char* major;
+
+public:
+    Student(const char* name = "", int age = 0, const char* major = "") {
+        this->name = new char[strlen(name) + 1];
+        strcpy(this->name, name);
+
+        this->major = new char[strlen(major) + 1];
+        strcpy(this->major, major);
+
+        this->age = age;
+    }
+
+    Student(const Student& other) {
+        name = new char[strlen(other.name) + 1];
+        strcpy(name, other.name);
+
+        major = new char[strlen(other.major) + 1];
+        strcpy(major, other.major);
+
+        age = other.age;
+    }
+
+    Student& operator=(const Student& other) {
+        if (this != &other) {
+            delete[] name;
+            delete[] major;
+
+            name = new char[strlen(other.name) + 1];
+            strcpy(name, other.name);
+
+            major = new char[strlen(other.major) + 1];
+            strcpy(major, other.major);
+
+            age = other.age;
+        }
+        return *this;
+    }
+
+    const char* getName() const { return name; }
+    int getAge() const { return age; }
+    const char* getMajor() const { return major; }
+
+    ~Student() {
+        delete[] name;
+        delete[] major;
+    }
+};
+
+class Classroom {
+private:
+    Student* students;
+    int numStudents;
+    int capacity;
+
+public:
+    Classroom(const Student* students = nullptr, int numStudents = 0, int capacity = 0) {
+        this->numStudents = numStudents;
+        this->capacity = (capacity >= numStudents) ? capacity : numStudents;
+
+        if (students != nullptr && numStudents > 0) {
+            this->students = new Student[this->capacity];
+            for (int i = 0; i < numStudents; i++) {
+                this->students[i] = students[i];
+            }
+        } else {
+            this->students = nullptr;
+        }
+    }
+
+    Classroom(const Classroom& other) {
+        numStudents = other.numStudents;
+        capacity = other.capacity;
+
+        if (other.students != nullptr) {
+            students = new Student[capacity];
+            for (int i = 0; i < numStudents; i++) {
+                students[i] = other.students[i];
+            }
+        } else {
+            students = nullptr;
+        }
+    }
+
+    Classroom& operator=(const Classroom& other) {
+        if (this != &other) {
+            delete[] students;
+
+            numStudents = other.numStudents;
+            capacity = other.capacity;
+
+            if (other.students != nullptr) {
+                students = new Student[capacity];
+                for (int i = 0; i < numStudents; i++) {
+                    students[i] = other.students[i];
+                }
+            } else {
+                students = nullptr;
+            }
+        }
+        return *this;
+    }
+
+    ~Classroom() {
+        delete[] students;
+    }
+
+    void add(const Student& student) {
+        if (numStudents == capacity) {
+            int newCapacity = (capacity == 0) ? 1 : capacity * 2;
+            Student* temp = new Student[newCapacity];
+
+            for (int i = 0; i < numStudents; i++) {
+                temp[i] = students[i];
+            }
+
+            delete[] students;
+            students = temp;
+            capacity = newCapacity;
+        }
+        students[numStudents] = student;
+        numStudents++;
+    }
+
+    void remove(const char* name) {
+        int index = -1;
+
+        for (int i = 0; i < numStudents; i++) {
+            if (::strcmp(students[i].getName(), name) == 0) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index != -1) {
+            for (int i = index; i < numStudents - 1; i++) {
+                students[i] = students[i + 1];
+            }
+            numStudents--;
+        }
+    }
+
+    void printStudents() const {
+        for (int i = 0; i < numStudents; i++) {
+            cout << students[i].getName() << " (" << students[i].getAge() << ", " << students[i].getMajor() << ")" << endl;
+        }
+        cout << endl;
+    }
+
+    Student* getStudents() const { return students; }
+    int getNumStudents() const { return numStudents; }
+    int getCapacity() const { return capacity; }
+};
+
+double findMedianAge(const Classroom& classroom) {
+    const Student* students = classroom.getStudents();
+    int numStudents = classroom.getNumStudents();
+
+    Student* copy = new Student[numStudents];
+    for (int i = 0; i < numStudents; i++) {
+        copy[i] = students[i];
+    }
+
+    for (int i = 0; i < numStudents; i++) {
+        for (int j = i + 1; j < numStudents; j++) {
+            if (copy[i].getAge() > copy[j].getAge()) {
+                Student temp = copy[i];
+                copy[i] = copy[j];
+                copy[j] = temp;
+            }
+        }
+    }
+
+    double median;
+    if (numStudents % 2 == 0) {
+        median = (copy[numStudents / 2 - 1].getAge() + copy[numStudents / 2].getAge()) / 2.0;
+    } else {
+        median = copy[numStudents / 2].getAge();
+    }
+
+    delete[] copy;
+    return median;
+}
+
+int main() {
+    int numClassrooms, numStudents;
+    cin >> numClassrooms;
+    Classroom classrooms[100];
+
+    for (int i = 0; i < numClassrooms; i++) {
+        cin >> numStudents;
+        for (int j = 0; j < numStudents; j++) {
+            char name[100], major[100];
+            int age;
+            cin >> name >> age >> major;
+            Student student(name, age, major);
+            classrooms[i].add(student);
+        }
+        cout << "Classroom " << i << endl;
+        classrooms[i].printStudents();
+    }
+
+    int targetClassroom;
+    cin >> targetClassroom;
+    double medianAge = findMedianAge(classrooms[targetClassroom]);
+    cout << "The median age in classroom " << targetClassroom << " is: " << medianAge << endl;
+
+    int numToRemove;
+    cin >> numToRemove;
+    for (int j = 0; j < numToRemove; j++) {
+        char name[100];
+        cin >> name;
+        for (int i = 0; i < numClassrooms; i++) {
+            classrooms[i].remove(name);
+        }
+    }
+
+    cout << "After removing the elements:" << endl;
+    for (int i = 0; i < numClassrooms; i++) {
+        cout << "Classroom " << i << endl;
+        classrooms[i].printStudents();
+    }
+
+    return 0;
+}
+
 
 
 
