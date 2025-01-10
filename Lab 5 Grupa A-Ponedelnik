@@ -1,0 +1,195 @@
+1.
+
+Да се дефинира класа Call, во која ќе се чуваат информации за датумот на повикот (објект од класа Date), времетраење во секунди (цел број), и два телефонски броja (текстуални низи од 10 цифри за број кој повикува и баран број). (10 поени)
+Класата Date треба да содржи три цели броеви за ден, месец и година. (5 поени) 
+
+
+Да се напише main функција во која се чита цел броj N (max 500), a потоа информации за N повици. Читањето на еден повик е во следниот формат: 
+
+dd mm yyyy 
+број_што_повикува 
+баран_број 
+времетраење (10 поени)
+
+Потоа, треба да се прочита уште еден датум кој означува почеток на временскиот период од тој датум до денес.
+
+Пример влез:
+
+18 03 2016 
+070211123
+071300400
+73
+
+.... повици
+
+
+18 12 2017 
+070211123
+071300400
+730
+
+11 11 2015
+
+На екран да се испечатат сите повици кои се пократки од 10 минути и се направени после внесен датум (не вклучувајќи ги и повиците на самиот тој датум). Да се искористи посебна функција која како аргументи прима: низа од објекти од класата Call, големина на низата со повици (цел број) и датум (објект од класата Date) кој означува почеток на временскиот период. Доколку не постојат повици со бараниот услов, да се испечати соодветна порака. (15 поени)
+
+Форматот на печатење да се види од тест примерите.
+
+ПОМОШ: Да се вклучи библиотеката #include<iomanip> за датумите да се испечатат со наредбата
+ cout << setfill('0') << setw(2) << day << "/" << setfill('0') << setw(2) << month << "/" << year
+
+-------------------------------------------------------------------------------------------------------------------
+Define class Call, where information about the call date (an object of the Date class), call duration in seconds (an integer), and two phone numbers (textual arrays of 10 digits for the calling number and the called number) are stored. (10 points)
+
+The Date class should contain three integers for day, month, and year. (5 points)
+
+Write a main function in which an integer N (max 500) is read, followed by information for N calls. Reading a single call is in the following format:
+
+dd mm yyyy
+
+ calling_number
+
+ called_number
+
+ duration (10 points)
+
+Then, another date should be read, indicating the start of the time period from that date until today.
+
+Example input:
+
+18 03 2016
+
+ 070211123
+
+ 071300400 
+
+73
+
+.... calls
+
+18 12 2017
+
+ 070211123
+
+ 071300400
+
+ 730
+
+11 11 2015
+
+Print all calls shorter than 10 minutes made after the entered date (excluding calls on that exact date). Use a separate function that takes as arguments: an array of objects of the Call class, the size of the call array (an integer), and a date (an object of the Date class) indicating the start of the time period. If there are no calls meeting the specified conditions, print an appropriate message. (15 points)
+
+The printing format should be seen from the test examples.
+
+HINT: Include the library #include<iomanip> to print dates using the command
+
+ cout << setfill('0') << setw(2) << day << "/" << setfill('0') << setw(2) << month << "/" << year
+
+
+For example:
+
+Input	
+10
+08 02 2014
+070215655
+070300800
+73
+04 06 2019
+070214644
+070880599
+602
+16 01 2020
+070214011
+071222333
+10
+03 12 2018
+072201899
+075444765
+150
+27 01 2021
+078308428
+070365567
+301
+19 07 2020
+079207079
+079599699
+365
+27 03 2019
+070214011
+070485011
+1025
+14 07 2018
+070214987
+076230808
+425
+05 11 2016
+070214011
+077444765
+875
+15 11 2017
+070345567
+077333444
+985
+01 01 2018
+
+Result
+16/01/2020 070214011 071222333 10
+03/12/2018 072201899 075444765 150
+27/01/2021 078308428 070365567 301
+19/07/2020 079207079 079599699 365
+14/07/2018 070214987 076230808 425
+
+Input
+10
+13 11 2016
+075308408
+071208308
+663
+09 10 2018
+070210011
+071210000
+653
+27 02 2019
+070214011
+075356756
+652
+16 12 2019
+075356756
+070214011
+688
+18 11 2018
+078308428
+075215666
+776
+24 11 2020
+078308428
+075215666
+655
+16 09 2021
+076215666
+070374404
+771
+05 07 2020
+070214011
+076215666
+623
+19 06 2020
+071351630
+070214011
+654
+01 03 2021
+078308428
+076215666
+1005
+03 05 2020
+
+Result
+No calls satisfy the given condition.
+
+
+
+THE CODE:
+
+
+
+
+
