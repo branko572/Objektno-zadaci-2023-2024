@@ -191,5 +191,222 @@ THE CODE:
 
 
 
+#include <iostream>
+#include <iomanip>
+#include <cstring>
+using namespace std;
+
+class Date {
+private:
+    int day, month, year;
+
+public:
+    Date(int day = 0, int month = 0, int year = 0) : day(day), month(month), year(year) {}
+
+    bool isAfter(const Date& other) const {
+        if (year > other.year) return true;
+        if (year == other.year && month > other.month) return true;
+        if (year == other.year && month == other.month && day > other.day) return true;
+        return false;
+    }
+
+    void print() const {
+        cout << setfill('0') << setw(2) << day << "/" << setfill('0') << setw(2) << month << "/" << year;
+    }
+};
+
+class Call {
+private:
+    Date date;
+    char callingNumber[11];
+    char calledNumber[11];
+    int duration;
+
+public:
+    Call(const Date& date = Date(), const char* callingNumber = "", const char* calledNumber = "", int duration = 0)
+        : date(date), duration(duration) {
+        strncpy(this->callingNumber, callingNumber, 10);
+        this->callingNumber[10] = '\0';
+        strncpy(this->calledNumber, calledNumber, 10);
+        this->calledNumber[10] = '\0';
+    }
+
+    const Date& getDate() const { return date; }
+    const char* getCallingNumber() const { return callingNumber; }
+    const char* getCalledNumber() const { return calledNumber; }
+    int getDuration() const { return duration; }
+
+    void print() const {
+        date.print();
+        cout << " " << callingNumber << " " << calledNumber << " " << duration << endl;
+    }
+};
+
+void filterCalls(Call calls[], int size, const Date& startDate) {
+    bool found = false;
+    for (int i = 0; i < size; i++) {
+        if (calls[i].getDate().isAfter(startDate) && calls[i].getDuration() < 600) {
+            calls[i].print();
+            found = true;
+        }
+    }
+    if (!found) {
+        cout << "No calls satisfy the given condition." << endl;
+    }
+}
+
+int main() {
+    int N;
+    cin >> N;
+
+    Call calls[500];
+    for (int i = 0; i < N; i++) {
+        int day, month, year, duration;
+        char callingNumber[11], calledNumber[11];
+
+        cin >> day >> month >> year;
+        cin >> callingNumber >> calledNumber >> duration;
+
+        Date date(day, month, year);
+        calls[i] = Call(date, callingNumber, calledNumber, duration);
+    }
+
+    int day, month, year;
+    cin >> day >> month >> year;
+    Date startDate(day, month, year);
+
+    filterCalls(calls, N, startDate);
+
+    return 0;
+}
+
+
+--------------------------------------------------------------------------------------
+
+
+VTOR NACIN:
+
+
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <cstring>
+
+using namespace std;
+
+class Date {
+private:
+    int day, month, year;
+
+public:
+    Date(int day = 0, int month = 0, int year = 0) {
+        this->day = day;
+        this->month = month;
+        this->year = year;
+    }
+
+    bool isAfter(const Date& other) const {
+        if (year > other.year) return true;
+        if (year == other.year && month > other.month) return true;
+        if (year == other.year && month == other.month && day > other.day) return true;
+        return false;
+    }
+
+    int getDay() const {
+        return day;
+    }
+
+    int getMonth() const {
+        return month;
+    }
+
+    int getYear() const {
+        return year;
+    }
+
+    void print() const {
+        cout << setfill('0') << setw(2) << day << "/" << setfill('0') << setw(2) << month << "/" << year;
+    }
+};
+
+class Call {
+private:
+    Date date;
+    string callingNumber;
+    string calledNumber;
+    int duration;
+
+public:
+    Call(const Date& date = Date(), const string& callingNumber = "", const string& calledNumber = "", int duration = 0)
+        : date(date), callingNumber(callingNumber), calledNumber(calledNumber), duration(duration) {}
+
+    const Date& getDate() const {
+        return date;
+    }
+
+    const string& getCallingNumber() const {
+        return callingNumber;
+    }
+
+    const string& getCalledNumber() const {
+        return calledNumber;
+    }
+
+    int getDuration() const {
+        return duration;
+    }
+
+    void print() const {
+        date.print();
+        cout << " " << callingNumber << " " << calledNumber << " " << duration << endl;
+    }
+};
+
+void filterCalls(Call calls[], int size, const Date& startDate) {
+    bool found = false;
+    for (int i = 0; i < size; i++) {
+        if (calls[i].getDate().isAfter(startDate) && calls[i].getDuration() < 600) {
+            calls[i].print();
+            found = true;
+        }
+    }
+    if (!found) {
+        cout << "No calls satisfy the given condition." << endl;
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    Call calls[500];
+
+    for (int i = 0; i < n; i++) {
+        int day, month, year;
+        string callingNumber, calledNumber;
+        int duration;
+
+        cin >> day >> month >> year;
+        cin >> callingNumber >> calledNumber >> duration;
+
+        Date date(day, month, year);
+        calls[i] = Call(date, callingNumber, calledNumber, duration);
+    }
+
+    int day, month, year;
+    cin >> day >> month >> year;
+    Date startDate(day, month, year);
+
+    filterCalls(calls, n, startDate);
+
+    return 0;
+}
+
+
+
+
+
+
+
 
 
