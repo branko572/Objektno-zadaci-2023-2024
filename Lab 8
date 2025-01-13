@@ -1,0 +1,456 @@
+1.
+
+Task: Implement a Hero Class Hierarchy with Multiple Types of Heroes
+You are tasked with implementing a system for representing different types of heroes, each with unique attributes and powers. The base class Hero should define common attributes and behaviors for all hero types. Derived classes should represent specific hero types with their unique abilities and power calculations.
+
+Classes to Implement:
+Hero Class (Base Class):
+
+Attributes:
+name (string): The name of the hero.
+attackDamage (float): The attack damage of the hero.
+attackSpeed (float): The attack speed of the hero.
+abilityPower (float): The ability power of the hero.
+Methods:
+displayInfo() (pure virtual): A method to display hero details.
+power() (pure virtual): A method to calculate the hero's power.
+LegendaryHero Class (Derived from Hero):
+
+Additional Attribute:
+hiddenPowers (int): The number of hidden powers the hero possesses.
+Methods:
+power() (overrides Hero's power): Calculate power using the formula:
+power = (0.4 * attackDamage * hiddenPowers) + (0.25 * attackSpeed * hiddenPowers) + (0.35 * abilityPower * hiddenPowers)
+displayInfo() (overrides Hero's displayInfo): Display the hero's details including the number of hidden powers and power.
+SuperHero Class (Derived from Hero):
+
+Additional Attribute:
+isShapeshifter (bool): Indicates whether the hero can shapeshift.
+Methods:
+power() (overrides Hero's power): Calculate power based on whether the hero is a shapeshifter. If the hero is not a shapeshifter, the power is the sum of attack damage, attack speed, and ability power. If the hero is a shapeshifter, the power is double that value.
+displayInfo() (overrides Hero's displayInfo): Display the hero's details including whether they are a shapeshifter and their power.
+LegendarySuperHero Class (Derived from both LegendaryHero and SuperHero):
+
+Methods:
+power() (overrides both LegendaryHero's and SuperHero's power): Calculate the average of the power values from both LegendaryHero and SuperHero.
+displayInfo() (overrides both LegendaryHero's and SuperHero's displayInfo): Display the hero's details including the calculated power.
+Helper Function:
+
+mostPowerfulLegendaryHero(Hero **heroes, int n):
+This function takes an array of Hero* pointers and returns the Hero* pointer to the most powerful LegendaryHero based on their power calculation. If no LegendaryHero is found, return nullptr.
+Input:
+First, ask the user for the number of heroes.
+Then, for each hero, ask for the type of hero (1 for LegendaryHero, 2 for SuperHero, or 3 for LegendarySuperHero).
+Depending on the hero type, ask for the following details:
+Name, attack damage, attack speed, and ability power.
+For LegendaryHero, ask for the number of hidden powers.
+For SuperHero, ask if the hero is a shapeshifter (0 for No, 1 for Yes).
+For LegendarySuperHero, ask for both the number of hidden powers and shapeshifter status.
+Output:
+Display the details of all heroes, including their power.
+Find and display the most powerful LegendaryHero from the list of heroes.
+
+
+
+
+THE CODE: 
+
+#include<iostream>
+#include<string>
+#include <cmath>
+#include <iomanip>  // For formatting output
+
+using namespace std;
+
+class Hero{
+protected:
+    string name;
+    float attackDamage;
+    float attackSpeed;
+    float abilityPower;
+public:
+
+    Hero(string name="", float attackDamage=0,  float attackSpeed=0, float abilityPower=0){
+        this->abilityPower=abilityPower;
+        this->attackDamage=attackDamage;
+        this->attackSpeed=attackSpeed;
+        this->name=name;
+    }
+
+    virtual void displayinfo()=0;
+    virtual float power()=0;
+};
+
+class LegendaryHero: virtual public Hero{
+private:
+    int hiddenPowers;
+public:
+
+    LegendaryHero(int hiddenPowers=0, string name="", float attackDamage=0,  float attackSpeed=0, float abilityPower=0): Hero(name, attackDamage, attackSpeed, abilityPower){
+        this->hiddenPowers=hiddenPowers;
+    }
+
+    float power() override{
+        return (0.4*attackDamage*hiddenPowers)+(0.25*attackSpeed*hiddenPowers)+(0.35*abilityPower*hiddenPowers);
+    }
+
+    void displayinfo() override{
+        cout<<"LegendaryHero: "<<name<<endl;
+        cout<<"Number of hidden powers: "<<hiddenPowers<<endl;
+        cout<<"Attack damage: "<<attackDamage<<endl;
+        cout<<"Attack speed: "<<attackSpeed<<endl;
+        cout<<"Ability power: "<<abilityPower<<endl;
+        cout<<"Power: "<<power()<<endl;
+    }
+
+};
+
+class SuperHero: virtual public Hero{
+private:
+    bool isShapeshifter;
+public:
+
+    SuperHero(bool isShapeshifter= false, string name="", float attackDamage=0,  float attackSpeed=0, float abilityPower=0): Hero(name, attackDamage, attackSpeed, abilityPower){
+        this->isShapeshifter=isShapeshifter;
+    }
+
+    float power() override{
+        if(!isShapeshifter){
+            return attackDamage+attackSpeed+abilityPower;
+        }
+        else{
+            return (attackDamage+attackSpeed+abilityPower)*2;
+        }
+    }
+
+    void displayinfo() override{
+        cout<<"SuperHero: "<<name<<endl;
+        cout<<"Shapeshifter: "<<isShapeshifter<<endl;
+        cout<<"Attack damage: "<<attackDamage<<endl;
+        cout<<"Attack speed: "<<attackSpeed<<endl;
+        cout<<"Ability power: "<<abilityPower<<endl;
+        cout<<"Power: "<<power()<<endl;
+    }
+
+};
+
+// The LegendarySuperHero class that combines both LegendaryHero and SuperHero
+class LegendarySuperHero: public LegendaryHero, public SuperHero{
+public:
+    LegendarySuperHero(int hiddenPowers=0, bool isShapeshifter=false, string name="", float attackDamage=0,  float attackSpeed=0, float abilityPower=0)
+            : LegendaryHero(hiddenPowers, name, attackDamage, attackSpeed, abilityPower), SuperHero(isShapeshifter, name, attackDamage, attackSpeed, abilityPower) {}
+
+    float power() override {
+        return (LegendaryHero::power() + SuperHero::power()) / 2;
+    }
+
+    void displayinfo() override {
+        cout << "LegendarySuperHero: " << name << endl;
+        cout << "Attack damage: " << attackDamage << endl;
+        cout << "Attack speed: " << attackSpeed << endl;
+        cout << "Ability power: " << abilityPower << endl;
+        cout << "Power: " << power() << endl;
+    }
+};
+
+Hero *mostPowerfulLegendaryHero(Hero **heroes, int n){
+    Hero *mostPowerful= nullptr;
+    float maxPower=-1;
+    for (int i = 0; i < n; ++i) {
+        if(dynamic_cast<LegendaryHero*>(heroes[i])){
+            float currentPower=heroes[i]->power();
+            if(currentPower>maxPower){
+                mostPowerful=heroes[i];
+                maxPower=currentPower;
+            }
+        }
+    }
+    return mostPowerful;
+}
+
+int main() {
+    int n;
+    cout << "Enter the number of heroes: ";
+    cin >> n;
+
+    // Create an array of Hero pointers
+    Hero** heroes = new Hero*[n];
+
+    // Populate the array with different hero objects
+    for (int i = 0; i < n; ++i) {
+        int heroType;
+        cout << "Enter hero type (1 for LegendaryHero, 2 for SuperHero, 3 for LegendarySuperHero): ";
+        cin >> heroType;
+
+        string name;
+        float attackDamage, attackSpeed, abilityPower;
+        int hiddenPowers;
+        bool isShapeshifter;
+
+        cout << "Enter name, attack damage, attack speed, ability power: ";
+        cin >> name >> attackDamage >> attackSpeed >> abilityPower;
+
+        if (heroType == 1) {
+            cout << "Enter number of hidden powers: ";
+            cin >> hiddenPowers;
+            heroes[i] = new LegendaryHero(hiddenPowers, name, attackDamage, attackSpeed, abilityPower);
+        }
+        else if (heroType == 2) {
+            cout << "Enter shapeshifter (0 for No, 1 for Yes): ";
+            cin >> isShapeshifter;
+            heroes[i] = new SuperHero(isShapeshifter, name, attackDamage, attackSpeed, abilityPower);
+        }
+        else if (heroType == 3) {
+            cout << "Enter number of hidden powers and shapeshifter (0 for No, 1 for Yes): ";
+            cin >> hiddenPowers >> isShapeshifter;
+            heroes[i] = new LegendarySuperHero(hiddenPowers, isShapeshifter, name, attackDamage, attackSpeed, abilityPower);
+        }
+    }
+
+    // Display info for all heroes
+    cout << "\nDisplaying info for all heroes:\n";
+    for (int i = 0; i < n; ++i) {
+        heroes[i]->displayinfo();
+        cout << endl;
+    }
+
+    // Find the most powerful LegendaryHero
+    Hero* mostPowerful = mostPowerfulLegendaryHero(heroes, n);
+    if (mostPowerful) {
+        cout << "\nMost powerful LegendaryHero:\n";
+        mostPowerful->displayinfo();
+    } else {
+        cout << "\nNo LegendaryHero found." << endl;
+    }
+
+    // Clean up dynamically allocated memory
+    for (int i = 0; i < n; ++i) {
+        delete heroes[i];
+    }
+    delete[] heroes;
+
+    return 0;
+}
+
+
+2.
+
+Task: Athlete Classification System
+Problem Statement:
+You need to create a system that manages information about athletes. The system will classify athletes into three categories: Runner, Jumper, and All-Round Athlete (who excels in both running and jumping). The program will allow users to input athlete data, display their details, and determine the athlete with the highest performance based on their specialization (speed for runners and height for jumpers).
+
+Class Structure:
+Athlete Class (Base Class):
+
+Attributes:
+char name[50]: A character array (string) to store the name of the athlete.
+int age: An integer to store the age of the athlete.
+Methods:
+void displayInfo(): Displays the athlete's name and age.
+Runner Class (Derived from Athlete):
+
+Attributes:
+double speed: A floating-point number to store the speed of the runner (in miles per hour).
+Methods:
+void displayInfo(): Displays the runner's name, age, and speed.
+double getSpeed(): Returns the runner's speed as a double.
+Jumper Class (Derived from Athlete):
+
+Attributes:
+double height: A floating-point number to store the height of the jump (in meters).
+Methods:
+void displayInfo(): Displays the jumper's name, age, and jump height.
+double getHeight(): Returns the jumper's jump height as a double.
+All-Round Athlete Class (Derived from Runner and Jumper):
+
+Attributes:
+int stamina: An integer to store the stamina of the athlete.
+Methods:
+void displayInfo(): Displays the all-round athlete's name, age, speed, height, and stamina.
+Functionality:
+Input:
+
+The user can choose to input data for a single athlete (an all-round athlete) or multiple athletes (either runners or jumpers).
+For each athlete:
+If they are a runner, input their speed (type double).
+If they are a jumper, input their jump height (type double).
+For an all-round athlete, input their speed (type double), jump height (type double), and stamina (type int).
+Output:
+
+In the first mode (for a single athlete), the program will display the information of the all-round athlete.
+In the second mode (for multiple athletes), the program will determine and display the athlete with the highest performance. For runners, this will be based on the highest speed (type double), and for jumpers, it will be based on the highest jump height (type double).
+Key Functions:
+findAthleteWithMaxValue(Athlete** athletes, int n):
+Parameters:
+Athlete** athletes: A pointer to an array of Athlete* pointers.
+int n: The number of athletes in the array.
+Return: The function returns a pointer to the athlete with the highest performance. The athlete with the highest speed (for runners) or height (for jumpers) is considered.
+Implementation:
+Iterate through the list of athletes, using dynamic_cast to determine if an athlete is a Runner or a Jumper.
+Compare the speed for runners and the height for jumpers, updating the maximum value and athlete as necessary.
+
+
+
+THE CODE: 
+
+
+#include <iostream>
+#include <cstring>
+#include <string>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+
+
+class Athlete{
+protected:
+    char name[50];
+    int age;
+public:
+
+    Athlete(char *name="", int age=0){
+        ::strcpy(this->name,name);
+        this->age=age;
+    }
+
+    virtual void displayInfo(){
+        cout<<"Athlete: "<<name<<endl;
+        cout<<"Age: "<<age<<endl;
+    };
+
+
+
+
+};
+
+class Runner: virtual public Athlete{
+protected:
+    double speed;
+public:
+
+    Runner( char *name="", int age=0, double speed=0): Athlete(name, age){
+        this->speed=speed;
+    }
+
+    void displayInfo() {
+        Athlete::displayInfo();
+
+        cout<<"Speed: "<<speed<<endl;
+    }
+
+    double getSpeed(){
+        return speed;
+    }
+
+
+};
+
+class Jumper: virtual public Athlete{
+protected:
+    double height;
+public:
+     Jumper(char *name="", int age=0, double height=0 ) : Athlete(name, age) {
+        this->height=height;
+    }
+
+
+    void displayInfo(){
+         Athlete::displayInfo();
+
+        cout<<"Height: "<<height<<endl;
+     }
+
+     double getHeight(){
+         return height;
+     }
+
+
+
+};
+
+
+class AllRoundAthlete: public Runner, public Jumper{
+private:
+int stamina;
+public:
+
+    AllRoundAthlete(char *name="", int age=0, double speed=0, double height=0, int stamina=0)
+    : Athlete(name, age), Runner(name, age, speed), Jumper(name, age, height){
+        this->stamina=stamina;
+    }
+
+
+    void displayInfo(){
+        Athlete::displayInfo();
+        cout<<"Speed: "<<speed<<" mph"<<endl;
+        cout<<"Height: "<<height<<" m"<<endl;
+        cout<<"Stamina: "<<stamina<<endl;
+    }
+};
+
+Athlete *findAthleteWithMaxValue(Athlete** athletes, int n){
+    Athlete *maxAthlete=athletes[0];
+
+    for (int i = 0; i < n; ++i) {
+        Runner *runner=dynamic_cast<Runner*>(athletes[i]);
+        Jumper *jumper=dynamic_cast<Jumper*>(athletes[i]);
+
+        if(runner && runner->getSpeed()>dynamic_cast<Runner*>(maxAthlete)->getSpeed()){
+            maxAthlete=athletes[i];
+        }else if(jumper && jumper->getHeight()>dynamic_cast<Jumper*>(maxAthlete)->getHeight()){
+            maxAthlete=athletes[i];
+        }
+    }
+    return maxAthlete;
+
+}
+
+
+
+int main() {
+    char name[50];
+    int age;
+    double speed;
+    double height;
+    int n;
+    int choice;
+
+    cin>>choice;
+    if(choice==1)
+    {
+        cin>>name;
+        cin>>age;
+        AllRoundAthlete allRoundAthlete(name, age, 13.6, 1.80, 6);
+        allRoundAthlete.displayInfo();
+    }
+    else {
+
+        cin >> n;
+
+        Athlete **athletes = new Athlete *[n];
+        for (int i = 0; i < n; i++) {
+            cin >> choice;
+            if (choice == 1) {
+                cin >> name >> age >> speed;
+
+                athletes[i] = new Runner(name, age, speed);
+            } else {
+                cin >> name >> age >> height;
+
+                athletes[i] = new Jumper(name, age, height);
+            }
+
+        }
+
+        findAthleteWithMaxValue(athletes, n)->displayInfo();
+
+    }
+
+
+    return 0;
+}
+
+
+
