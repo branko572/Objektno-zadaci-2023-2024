@@ -398,6 +398,78 @@ int main() {
     return 0;
 }
 
+----------------------------------------------------------------------------------------
+
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+// Structure to represent a complex number
+struct ComplexNumber {
+    float real; // Real part
+    float imag; // Imaginary part
+};
+
+// Function to add two complex numbers
+ComplexNumber add(ComplexNumber a, ComplexNumber b) {
+    return {a.real + b.real, a.imag + b.imag};
+}
+
+// Function to subtract two complex numbers
+ComplexNumber subtract(ComplexNumber a, ComplexNumber b) {
+    return {a.real - b.real, a.imag - b.imag};
+}
+
+// Function to multiply two complex numbers
+ComplexNumber multiply(ComplexNumber a, ComplexNumber b) {
+    return {
+            a.real * b.real - a.imag * b.imag, // Real part
+            a.real * b.imag + a.imag * b.real  // Imaginary part
+    };
+}
+
+// Function to read a complex number from the user
+void read(ComplexNumber &cn) {
+    cout << "Enter real and imaginary parts: ";
+    cin >> cn.real >> cn.imag;
+}
+
+// Function to print a complex number
+void print(ComplexNumber cn) {
+    cout << cn.real;
+    if (cn.imag >= 0) {
+        cout << "+";
+    }
+    cout << cn.imag << "i" << endl;
+}
+
+int main() {
+    ComplexNumber a, b;
+
+    // Read two complex numbers
+    read(a);
+    read(b);
+
+    // Print the input complex numbers
+    cout << "a = "; print(a);
+    cout << "b = "; print(b);
+
+    // Perform and print addition
+    cout << "a + b = "; print(add(a, b));
+
+    // Perform and print subtraction
+    cout << "a - b = "; print(subtract(a, b));
+
+    // Perform and print multiplication
+    cout << "a * b = "; print(multiply(a, b));
+
+    return 0;
+}
+
+
+
 
 1.4  Студенти
 Од стандарден влез се читаат податоци за непознат број студенти (не повеќе од 100). Податоците се внесуваат така што во секој ред се состои од:
