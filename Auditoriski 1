@@ -721,6 +721,61 @@ int main() {
 -------------------------------------------------------------------------------------------------
 
 
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct City {
+    string name;
+    int population;
+};
+
+struct Country {
+    string name;
+    string president;
+    City capital;
+    int population;
+
+    void print() {
+        cout << name << " " << president << " "
+             << capital.name << " " << capital.population << " "
+             << population << "\n";
+    }
+};
+
+void read(Country c[], int n) {
+    for (int i = 0; i < n; i++) {
+        cin >> c[i].name >> c[i].president >> c[i].capital.name >> c[i].capital.population >> c[i].population;
+    }
+}
+
+void maxcapitalpop(Country c[], int n) {
+    Country max = c[0];
+    for (int i = 1; i < n; i++) {
+        if (c[i].capital.population > max.capital.population) {
+            max = c[i];
+        }
+    }
+    cout << max.president << endl;
+}
+
+int main() {
+    Country c[100];
+    int n;
+    cin >> n;
+
+    read(c, n);
+
+    for (int i = 0; i < n; i++) {
+        c[i].print();
+    }
+
+    cout << "\nCountry with largest capital population:\n";
+    maxcapitalpop(c, n);
+
+    return 0;
+}
 
 
 
