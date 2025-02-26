@@ -119,3 +119,353 @@ int main() {
 
     return 0;
 }
+
+
+Да се дефинира класа TennisPlayer за чување на податоци за тенисери.
+
+Во класата треба да се чуваат приватните податочни членови:
+name - име на тенисерот (низа од знаци);
+surname - презиме на тенисерот (низа од знаци);
+rank - ранг на тенисерот (цел број, помал број се однесува на повисок ранг);
+matchesPlayed - вкупен број на изиграни натпревари во кариерата на тенисерот (int);
+matchesWon- вкупен број на победени натпревари во кариерата на тенисерот (int).
+Дополнително да се дефинира default констурктор (констурктор без аргументи) и деструктор, како и соодветни гетери и сетери.
+
+Во класата треба да биде имплементирана функција findPercentageWins која го наоѓа процентот на победени натпревари од вкупните изиграни натпревари за играчот.
+
+Надвор од класата треба да се имплементира функциjaтa printHighestRankedPlayerBelow50PercentWins која го печати највисокиот рангиран тенисер чиј процент на победени натпревари (од вкупните) е помал од 50%.
+Ако таков играч не постои, да се испечати пораката `No such tennis player.`
+Не го менувајте дадениот код. Потребно е само да се прошири дадениот код.
+Define the class TennisPlayer to store data for tennis players.
+
+The class should store the following private data members:
+name - the name of the tennis player (array of chars);
+surname - the surname of the tennis player (array of chars);
+rank - the rank of the tennis player (integer, smaller number corresponds to a higher rank);
+matchesPlayed - the total number of matches played in the tennis player's career (int);
+matchesWon- the total number of matches won in the tennis player's career (int).
+Additionally, define a default constructor (constructor without arguments) and a destructor, as well as appropriate getters and setters.
+Inside the class implement the function findPercentageWins that calculates the percentage of matches won out of the total matches played for the player.
+
+Outside of the class, implement the function printHighestRankedPlayerBelow50PercentWins which prints the highest-ranked tennis player whose percentage of matches won (out of the total) is less than 50%. If such a player does not exist, print the message "No such tennis player."
+Do not modify the code. Only extend the functionalities of the given code.
+For example:
+
+Input	Result
+-1 10
+Novak Djokovic 1 1310 1095
+Carlos Alcaraz 2 780 640
+Jannik Sinner 3 306 123
+Daniil Medvedev 4 531 405
+Andrey Rublev 5 344 310
+Alexander Zverev 6 940 569
+Holger Rune 7 1038 445
+Hubert Hurkacz 8 974 883
+Casper Ruud 9 345 104
+Alex deMinaur 10 541 401
+Jannik Sinner
+-1 3
+Daniil Medvedev 4 531 405
+Andrey Rublev 5 344 310
+Alexander Zverev 6 940 569
+No such tennis player.
+0
+Testing default constructor and getters/setters
+---
+Full name: John Doe
+Rank and won matches out of total: 55 50/100
+1
+Testing findPercentageWins function
+---
+Passed.
+
+
+
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class TennisPlayer {
+private:
+    char name[50];
+    char surname[50];
+    int rank;
+    int matchesPlayed;
+    int matchesWon;
+
+public:
+    // Default constructor
+    TennisPlayer() {}
+
+    // Constructor with arguments
+    TennisPlayer(const char* name, const char* surname, int rank, int matchesPlayed, int matchesWon) {
+        strcpy(this->name, name);
+        strcpy(this->surname, surname);
+        this->rank = rank;
+        this->matchesPlayed = matchesPlayed;
+        this->matchesWon = matchesWon;
+    }
+
+    // Destructor
+    ~TennisPlayer() {}
+
+    // Getter and setter functions
+    const char* getName() const { return name; }
+    const char* getSurname() const { return surname; }
+    int getRank() const { return rank; }
+    int getMatchesPlayed() const { return matchesPlayed; }
+    int getMatchesWon() const { return matchesWon; }
+
+    void setRank(int rank) { this->rank = rank; }
+    void setMatchesPlayed(int matchesPlayed) { this->matchesPlayed = matchesPlayed; }
+    void setMatchesWon(int matchesWon) { this->matchesWon = matchesWon; }
+    void setName(const char* name) { strcpy(this->name, name); }
+    void setSurname(const char* surname) { strcpy(this->surname, surname); }
+
+    // Function to calculate percentage of matches won
+    float findPercentageWins() const {
+        return (matchesPlayed > 0) ? (static_cast<float>(matchesWon) / matchesPlayed) * 100 : 0;
+    }
+};
+
+// Function to print the highest-ranked player with less than 50% win percentage
+void printHighestRankedPlayerBelow50PercentWins(TennisPlayer players[], int n) {
+    int highestRank = -1;
+    TennisPlayer highestRankedPlayer;
+
+    for (int i = 0; i < n; i++) {
+        float percent = players[i].findPercentageWins();
+        if (percent < 50 && (highestRank == -1 || players[i].getRank() < highestRank)) {
+            highestRank = players[i].getRank();
+            highestRankedPlayer = players[i];
+        }
+    }
+
+    if (highestRank == -1) {
+        cout << "No such tennis player." << endl;
+    } else {
+        cout << highestRankedPlayer.getName() << " " << highestRankedPlayer.getSurname() << endl;
+    }
+}
+
+void test(int k) {
+    if (k == 0) {
+        cout << "Testing default constructor and getters/setters" << endl;
+        cout << "---" << endl;
+        TennisPlayer player;
+        player.setName("John");
+        player.setSurname("Doe");
+        player.setRank(55);
+        player.setMatchesPlayed(100);
+        player.setMatchesWon(50);
+        cout << "Full name: " << player.getName() << " " << player.getSurname() << endl;
+        cout << "Rank and won matches out of total: " << player.getRank() << " " << player.getMatchesWon() << "/"
+             << player.getMatchesPlayed() << endl;
+    } else if (k == 1) {
+        cout << "Testing findPercentageWins function" << endl;
+        cout << "---" << endl;
+        TennisPlayer player;
+        player.setName("John");
+        player.setSurname("Doe");
+        player.setRank(55);
+        player.setMatchesPlayed(100);
+        player.setMatchesWon(50);
+        if (player.findPercentageWins() != 50) {
+            cout << "Test case failed." << endl;
+            cout << "Expected: " << 50 << "; Got: " << player.findPercentageWins() << endl;
+            return;
+        }
+        player.setMatchesWon(90);
+        if (player.findPercentageWins() != 90) {
+            cout << "Test case failed." << endl;
+            cout << "Expected: " << 90 << "; Got: " << player.findPercentageWins() << endl;
+            return;
+        }
+        cout << "Passed." << endl;
+    }
+}
+
+int main() {
+    int testCase;
+    cin >> testCase;
+
+    if (testCase == 0 || testCase == 1) {
+        test(testCase);
+        return 0;
+    }
+
+    int n;
+    cin >> n;
+
+    TennisPlayer players[n];
+    for (int i = 0; i < n; i++) {
+        char name[50], surname[50];
+        int rank, matchesPlayed, matchesWon;
+        cin >> name >> surname >> rank >> matchesPlayed >> matchesWon;
+        players[i] = TennisPlayer(name, surname, rank, matchesPlayed, matchesWon);
+    }
+
+    printHighestRankedPlayerBelow50PercentWins(players, n);
+
+    return 0;
+}
+
+
+Да се дефинира класа MobilePhone во која ќе се чуваат податоци за еден мобилен телефон:
+
+модел (низа од карактери не подолга од 20 карактери)
+број на модел (цел број)
+година на издавање (цел број)
+За класата да се дефинира default конструктор, конструктор со аргументи, copy конструктор, деструктор и доколку има потреба get методи. Исто така да се дефинира и фунцкија за печатење на информации за класата која ќе печати во следниот формат „(модел) (број на модел) release year: (година на издавање)“.
+
+Потоа да се дефинира класа Owner во која се чуваат следните информации:
+
+име (низа од карактери не подолга од 20 карактери)
+презиме (низа од карактери не подолга од 20 карактери)
+мобилен телефон (објект од класа MobilePhone)
+Да се креира default конструктор, конструктор со аргументи, деструктор и доколку има потреба get методи. Исто така да се дефинира и функција за печатење на информации за класата која ќе печати во следниот формат: 
+
+„(име) (презиме) has a mobile phone:
+
+(информации за мобилен телефон)“
+
+ДА НЕ СЕ МЕНУВА MAIN ФУНКЦИЈАТА!!!
+
+---
+
+
+Define a class MobilePhone in which data for a mobile phone is stored:
+
+model (a character array no longer than 20 characters) 
+model number (integer) 
+release year (integer) 
+Define a default constructor, a constructor with arguments, a copy constructor, a destructor, and getter methods if necessary for the class. Also, define a function for printing information about the class in the following format: "(model) (model number) release year: (release year)".
+Then, define a class Owner in which the following information is stored:
+
+name (a character array no longer than 20 characters) surname (a character array no longer than 20 characters) mobile phone (an object of class MobilePhone) Create a default constructor, a constructor with arguments, a destructor, and getter methods if necessary. Also, define a function for printing information about the class that prints in the following format:
+
+"(name) (surname) has a mobile phone: (information about the mobile phone)" 
+
+DO NOT MODIFY THE MAIN FUNCTION!!!
+
+
+For example:
+
+Input	Result
+1
+Iphone
+12
+2020
+Marko
+Petrov
+Marko Petrov has a mobile phone:
+Iphone 12 release year: 2020
+
+
+
+#include <iostream>
+#include <string.h>
+#include <cstring>
+#include <cmath>
+using namespace std;
+
+//YOUR CODE HERE
+class MobilePhone {
+private:
+    char model[20];
+    int modelNumber;
+    int year;
+public:
+    MobilePhone() {}
+
+    MobilePhone(char *model, int modelNumber, int year) {
+        ::strcpy(this->model, model);
+        this->modelNumber = modelNumber;
+        this->year = year;
+    }
+
+    ~MobilePhone() {}
+
+    const char *getModel() const {
+        return model;
+    }
+
+    int getModelNumber() const {
+        return modelNumber;
+    }
+
+    int getYear() const {
+        return year;
+    }
+};
+
+class Owner {
+private:
+    char name[20];
+    char surname[20];
+    MobilePhone mobilePhone;
+
+public:
+    Owner() {}
+
+    Owner(char *name, char *surname, const MobilePhone mobilePhone) {
+        ::strcpy(this->name, name);
+        ::strcpy(this->surname, surname);
+        this->mobilePhone = mobilePhone;
+    }
+
+    ~Owner() {}
+
+    const MobilePhone &getMobilePhone() const {
+        return mobilePhone;
+    }
+
+    const char *getName() const {
+        return name;
+    }
+
+    const char *getSurname() const {
+        return surname;
+    }
+
+    void print() {
+        cout  << name << " " << surname
+        << " has a mobile phone: "<<endl << mobilePhone.getModel()
+             << " " << mobilePhone.getModelNumber()
+             << " release year: " << mobilePhone.getYear() << endl;
+    }
+};
+
+//DO NOT CHANGE THE MAIN FUNCTION
+int main() {
+    char model[20];
+    int modelNumber;
+    int year;
+    char name[20];
+    char surname[20];
+
+    int testCase;
+
+    cin >> testCase;
+
+    cin >> model;
+    cin >> modelNumber;
+    cin >> year;
+    cin >> name;
+    cin >> surname;
+
+    if (testCase == 1) {
+        MobilePhone mobilePhone(model, modelNumber, year);
+        Owner owner(name, surname, mobilePhone);
+        owner.print();
+    }
+    if (testCase == 2) {
+        MobilePhone mobilePhone(MobilePhone(model, modelNumber, year));
+        Owner owner(name, surname, mobilePhone);
+        owner.print();
+    }
+
+    return 0;
+}
+
