@@ -1,0 +1,121 @@
+Да се креира класа BasketballPlayer која ќе ги чува следните информации:
+име на кошаркарот (низа од знаци не подолга од 20 карактери)
+презиме на кошаркарот (низа од знаци не подолга од 20 карактери)
+број на дрес (цел број)
+поени од прв натпревар (цел број)
+поени од втор натпревар (цел број)
+поени од трет натпревар (цел број)
+Да се направат потребните методи за класата, како и метод за печатење на информации за кошаркарот во следен формат "Player: name surname with number: number has avg_pts points on average".
+
+Од стандарден влез се внесуваат име, презиме, број на дрес и поени за сите три натпревари за еден кошаркар.
+
+На стандарден излез се печатат информациите за кошаркарот.
+
+--------------------------------------
+
+Create a class BasketballPlayer which has the following information:
+
+name (array of characters not longer than 20 characters)
+surname (array of characters not longer than 20 characters)
+jersey number (integer)
+points on first match (integer)
+points on second match (integer)
+points on third match (integer)
+Write the needed methods for the class, and write a method for printing details about the basketball player in the following format "Player: name surname with number: number has avg_pts points on average".
+The program should receive the name, surname, jersey number and points from 3 matches on standard input.
+
+On standard output just print out the details about the basketball player using the created method.
+
+
+For example:
+
+Input	
+Marko
+Petrov
+10
+13
+14
+15
+
+Result
+Player: Marko Petrov with number: 10 has 14 points on average
+
+
+
+#include <iostream>
+#include <cstring> // for strcpy
+using namespace std;
+
+class BasketballPlayer {
+private:
+    char name[20];
+    char surname[20];
+    int number;
+    int pointsFirstGame;
+    int pointsSecondGame;
+    int pointsThirdGame;
+
+public:
+    BasketballPlayer() {}
+
+    BasketballPlayer(char *name, char *surname, int number,
+                     int pointsFirstGame, int pointsSecondGame, int pointsThirdGame) {
+        strcpy(this->name, name);
+        strcpy(this->surname, surname);
+        this->number = number;
+        this->pointsFirstGame = pointsFirstGame;
+        this->pointsSecondGame = pointsSecondGame;
+        this->pointsThirdGame = pointsThirdGame;
+    }
+
+    ~BasketballPlayer() {}
+
+    const char *getName() const {
+        return name;
+    }
+
+    const char *getSurname() const {
+        return surname;
+    }
+
+    int getNumber() const {
+        return number;
+    }
+
+    int getPointsFirstGame() const {
+        return pointsFirstGame;
+    }
+
+    int getPointsSecondGame() const {
+        return pointsSecondGame;
+    }
+
+    int getPointsThirdGame() const {
+        return pointsThirdGame;
+    }
+};
+
+float getAverage(int first, int second, int third) {
+    return (first + second + third) / 3.0;  // Return a float value
+}
+
+int main() {
+    char name[20], surname[20];
+    int number, pointsFirstGame, pointsSecondGame, pointsThirdGame;
+
+    // Input player details
+    cin >> name >> surname >> number >> pointsFirstGame >> pointsSecondGame >> pointsThirdGame;
+
+    // Create BasketballPlayer object
+    BasketballPlayer b(name, surname, number, pointsFirstGame, pointsSecondGame, pointsThirdGame);
+
+    // Calculate average points
+    float avg = getAverage(pointsFirstGame, pointsSecondGame, pointsThirdGame);
+
+    // Output player details and average points
+    cout << "Player: " << b.getName() << " " << b.getSurname()
+         << " with number: " << b.getNumber()
+         << " has " << avg << " points on average" << endl;
+
+    return 0;
+}
