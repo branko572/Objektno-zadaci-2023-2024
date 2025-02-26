@@ -354,7 +354,75 @@ int main() {
     return 0;
 }
 
+-----------------------------------------------------------------------
 
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Email {
+private:
+    string to;
+    string from;
+    string subject;
+    string body;
+
+public:
+    Email(const string& to = "", const string& from = "", const string& subject = "", const string& body = "")
+            : to(to), from(from), subject(subject), body(body) {}
+
+    const string& getTo() const { return to; }
+    const string& getFrom() const { return from; }
+    const string& getSubject() const { return subject; }
+    const string& getBody() const { return body; }
+
+    void setTo(const string& to) { this->to = to; }
+    void setFrom(const string& from) { this->from = from; }
+    void setSubject(const string& subject) { this->subject = subject; }
+    void setBody(const string& body) { this->body = body; }
+
+    void print() const {
+        cout << "To: " << to << endl;
+        cout << "From: " << from << endl;
+        cout << "Subject: " << subject << endl;
+        cout << "Body: " << body << endl;
+    }
+};
+
+bool checkmail(const string& address) {
+    size_t atPos = address.find('@');
+    return (atPos != string::npos && atPos != 0 && atPos != address.length() - 1);
+}
+
+int main() {
+    string to, from, subject, body;
+
+    while (true) {
+        cout << "To: ";
+        getline(cin, to);
+        if (checkmail(to)) {
+            break;
+        } else {
+            cout << "Invalid email address! Please try again." << endl;
+        }
+    }
+
+    cout << "From: ";
+    getline(cin, from);
+
+    cout << "Subject: ";
+    getline(cin, subject);
+
+    cout << "Body: ";
+    getline(cin, body);
+
+    Email email(to, from, subject, body);
+    cout << "\nSent Email:\n";
+    email.print();
+
+    return 0;
+}
 
 
 
